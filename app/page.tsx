@@ -19,7 +19,7 @@ export default function Home() {
                 <Mail className="mr-2" /> Signin
               </Button>
             </Link>
-            <Link href={"#"}>
+            <Link href={"#page"}>
               <Button>
                 <Brain /> Learn More
               </Button>
