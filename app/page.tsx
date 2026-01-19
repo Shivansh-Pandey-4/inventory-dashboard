@@ -14,14 +14,14 @@ export default function Home() {
           <h1 className="font-bold text-5xl mb-6 text-gray-900">Inventory Management.</h1>
           <p className="max-w-2xl mx-auto text-xl text-gray-600">Streamline your inventory tracking with our powerful, easy-to-use management system. Track products, monitor stock levels, and gain valuable insights.</p>
           <div className="flex items-center justify-center mt-8 pt-5 gap-4">
-            <Link href={"/signin"}>
+            <Link href={"#page"} >
               <Button variant={"outline"}>
-                <Mail className="mr-2" /> Signin
+                <Brain /> Learn More
               </Button>
             </Link>
-            <Link href={"#page"}>
+            <Link href={"/signin"} >
               <Button>
-                <Brain /> Learn More
+                <Mail className="mr-2" /> Sign-in
               </Button>
             </Link>
           </div>
