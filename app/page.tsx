@@ -1,11 +1,18 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
-import { Brain, Mail, } from "lucide-react";
+import { Brain, LayoutDashboard, LogOutIcon, Mail, } from "lucide-react";
 import Link from "next/link";
 import { inventoryFeatures } from "@/lib/constant";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import SignoutClient from "@/components/SignoutClient";
 
 
-export default function Home() {
+export default async function Home() {
+
+  const session = await auth.api.getSession({
+    headers: await headers()
+  })
 
   return (
     <div className="min-h-screen py-16 px-4 bg-linear-to-b from-purple-50 to-purple-200">
@@ -19,11 +26,25 @@ export default function Home() {
                 <Brain /> Learn More
               </Button>
             </Link>
-            <Link href={"/signin"} >
-              <Button>
-                <Mail className="mr-2" /> Sign-in
-              </Button>
-            </Link>
+            {
+              session?.user ?
+                (<Link href={"/dashboard"} >
+                  <Button>
+                    <LayoutDashboard className="mr-2" /> Dashboard
+                  </Button>
+                </Link>) : (<Link href={"/signin"} >
+                  <Button>
+                    <Mail className="mr-2" /> Sign-in
+                  </Button>
+                </Link>)
+            }
+
+            {
+              session && (
+                <SignoutClient />
+              )
+            }
+
           </div>
         </section>
         <section className="mt-8 py-12">

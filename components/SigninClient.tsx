@@ -34,7 +34,7 @@ export default function SigninClient() {
                             <div className="border flex-1 h-px"></div>
                         </div>
                         <div className="text-center mt-2">
-                            <Link href={"/signin"}>
+                            <Link href={"/signup"}>
                                 <p className="hover:underline">Don't have an account ? <span>Signup</span></p>
                             </Link>
                         </div>
