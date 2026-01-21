@@ -14,6 +14,7 @@ export default async function Home() {
     headers: await headers()
   })
 
+
   return (
     <div className="min-h-screen py-16 px-4 bg-linear-to-b from-purple-50 to-purple-200">
       <main className="container max-w-5xl mx-auto">

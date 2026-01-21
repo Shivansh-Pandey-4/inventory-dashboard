@@ -1,7 +1,8 @@
 "use server";
 
 import { auth } from "@/lib/auth";
-import { State } from "@/lib/types";
+import { SigninState, State } from "@/lib/types";
+import { headers } from "next/headers";
 
 
 export async function signupAction(prevState: State, formData: FormData){
@@ -46,5 +47,41 @@ export async function signupAction(prevState: State, formData: FormData){
          }
       }
 
+}
+
+export async function signinAction(prevState: SigninState, formData: FormData){
+      const email = formData.get("email")?.toString() || "";
+      const password = formData.get("password")?.toString() || "";
+
+      if(!email.trim() || !password.trim()){
+          return {
+              success : false,
+              msg : "all inputs are required",
+              error : {
+                 email : !email ? "email is required" : undefined,
+                 password : !password ? "password is required" : undefined
+              },
+              submitNo : prevState.submitNo + 1
+          }
+      }
+
+      try {
+         await auth.api.signInEmail({
+             body : {email, password}
+         })
+
+         return {
+             success: true,
+             msg : "signed in successfully",
+             submitNo : prevState.submitNo + 1
+         }
+      } catch (error) {
+          return {
+             success : false,
+             msg : "failed to signin",
+             error : error instanceof Error ? error.message : "unknown error occurred",
+             submitNo : prevState.submitNo + 1
+          }
+      }
 }
 

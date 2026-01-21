@@ -8,3 +8,13 @@ export interface State{
      } | string;
      submitNo : number;
 }
+
+export interface SigninState{
+     success ?: boolean;
+     msg ?: string;
+     error ?: {
+        email ?: string;
+        password ?: string;
+     } | string;
+     submitNo : number;
+}
