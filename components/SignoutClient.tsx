@@ -1,35 +1,42 @@
 "use client"
 
-import { useActionState, useEffect } from "react"
+import { useState } from "react"
 import { Button } from "./ui/button"
 import { Loader2, LogOut } from "lucide-react";
-import { signoutAction } from "@/actions/userAuth";
 import { toast } from "sonner";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
-const initialState: { submitNo: number; success?: boolean } = { submitNo: 0 }
 
 export default function SignoutClient() {
 
-    const [state, action, isPending] = useActionState(signoutAction, initialState)
+    const [isPending, setIsPending] = useState(false);
+    const router = useRouter();
 
-    useEffect(() => {
-        if (state.success === true) {
-            toast.success("user signout successfully");
-        }
-        if (state.success === false) {
-            toast.error("failed to signout")
-        }
-        console.log(state);
-    }, [state.submitNo]);
+
+    async function handleBtn(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+        setIsPending(true);
+        await authClient.signOut({
+            fetchOptions: {
+                onSuccess: () => {
+                    setIsPending(false);
+                    toast.success("signout successfully");
+                    router.refresh()
+                },
+                onError: () => {
+                    setIsPending(false);
+                    toast.error("failed to signout");
+                }
+            },
+        });
+    }
 
 
     return <>
-        <form action={action}>
-            <Button>
-                {
-                    isPending ? <span className="animate-spin"><Loader2 /></span> : <span className="flex items-center gap-3"><LogOut /> Signout</span>
-                }
-            </Button>
-        </form>
+        <Button className="min-w-30" disabled={isPending} onClick={handleBtn}>
+            {
+                isPending ? <span className="animate-spin"><Loader2 /></span> : <span className="flex items-center gap-3"><LogOut /> Signout</span>
+            }
+        </Button>
     </>
 }

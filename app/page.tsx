@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
-import { Brain, LayoutDashboard, LogOutIcon, Mail, } from "lucide-react";
+import { Brain, LayoutDashboard, Mail, } from "lucide-react";
 import Link from "next/link";
 import { inventoryFeatures } from "@/lib/constant";
 import { auth } from "@/lib/auth";
@@ -13,7 +13,6 @@ export default async function Home() {
   const session = await auth.api.getSession({
     headers: await headers()
   })
-
 
   return (
     <div className="min-h-screen py-16 px-4 bg-linear-to-b from-purple-50 to-purple-200">
