@@ -17,9 +17,26 @@ model User {
   updatedAt     DateTime  @updatedAt
   sessions      Session[]
   accounts      Account[]
+  products      Product[]
 
   @@unique([email])
   @@map("user")
+}
+
+model Product {
+  id         String   @id @default(cuid())
+  name       String
+  price      Decimal  @db.Decimal(12, 2)
+  quantity   Int      @default(0)
+  sku        String?  @unique
+  lowStockAt Int?
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([userId, name])
+  @@index([createdAt])
 }
 
 model Session {
